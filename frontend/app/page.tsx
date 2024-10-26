@@ -2,11 +2,17 @@ import React from 'react'
 import Link from 'next/link'
 
 const Home = () => {
+  const homeBackground = {
+    backgroundImage: "url('/home_background.png')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '100vh',
+  }
   return (
-    <main className='grid grid-cols-3 gap-4'>
+    <main style={homeBackground} className='grid grid-cols-3 gap-4'>
       <div className='items-center col-span-2 px-20 py-40'>
-          <h1 className='text-5xl font-bold'>Queue</h1>
-          <h1 className='text-5xl font-bold'>Management</h1>
+          <h1 className='text-7xl font-bold'>Queue</h1>
+          <h1 className='text-7xl font-bold'>Management</h1>
           <br></br>
           <h1 className='text-2xl'>You can choose your role to start using our website</h1>
           <br></br>
@@ -18,9 +24,6 @@ const Home = () => {
               <button className='btn btn-primary w-full'>Business Owner</button>
             </Link>
           </div>
-      </div>
-      <div>
-        item 2
       </div>
     </main>
   )

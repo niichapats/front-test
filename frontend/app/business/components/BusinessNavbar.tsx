@@ -9,25 +9,16 @@ import AddQueue from '../AddQueue'
 export default function BusinessNavbar() {
     const pathname = usePathname()
 
-    const openModal = () => {
-        const modal = document.getElementById('my_modal_3');
-        if (modal) {
-            modal.showModal();
-        }
-    }
     return (
-        <div className='navbar fixed z-50 bg-white'>
+        <div className='navbar fixed z-50 bg-[#FEF9F2]'>
             <div className='flex-1'>
                 <Image src="/logo.png" width={50} height={50} alt='logo'></Image>
-                <Link href="/" className='btn btn-ghost text-xl text-[#212A3E]'>Queue Management</Link>
+                <Link href="/" className='btn btn-ghost text-2xl'>Queue Management</Link>
             </div>
             <div className='flex-none'>
                 <ul className='menu menu-horizontal px-1'>
                     <li>
                         <Link href="/">Home</Link>
-                    </li>
-                    <li>
-                        <a onClick={openModal}>Add Queue</a>
                     </li>
                     <li>
                         <details>
@@ -48,7 +39,6 @@ export default function BusinessNavbar() {
                     </li>
                 </ul>
             </div>
-            <AddQueue />
         </div>
     )
 }

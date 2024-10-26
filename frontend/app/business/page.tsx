@@ -6,7 +6,7 @@ const Business = () => {
   return (
     <main>
         <BusinessNavbar/>
-        <div className='pt-16'>
+        <div className='pt-20 bg-[#FEF9F2]'>
           <BusinessPage/>
         </div>
     </main>
