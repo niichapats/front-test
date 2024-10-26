@@ -1,19 +1,28 @@
-'use client'
+'use client';
 
 import React, { useState } from 'react';
 
-const AddTrackingCode = () => {
-    const [trackingCode, setTrackingCode] = useState('');
-    const [queueEntries, setQueueEntries] = useState([]);
-    const [error, setError] = useState('');
+interface QueueEntry {
+    business: string;
+    queueName: string;
+    date: string;
+    time: string;
+    status: string;
+    numberOfEntriesBefore: number;
+}
 
-    const handleTrackingCodeChange = (event) => {
+const AddTrackingCode: React.FC = () => {
+    const [trackingCode, setTrackingCode] = useState<string>('');
+    const [queueEntries, setQueueEntries] = useState<QueueEntry[]>([]);
+    const [error, setError] = useState<string>('');
+
+    const handleTrackingCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTrackingCode(event.target.value);
     }
 
     const handleEnterClick = async () => {
         if (trackingCode) {
-            const mockData = {
+            const mockData: Record<string, QueueEntry> = {
                 "abc123": {
                     business: "Mim & Friends",
                     queueName: "B7-Medium",
@@ -60,7 +69,7 @@ const AddTrackingCode = () => {
         }
     };
 
-    const handleCancelClick = (index) => {
+    const handleCancelClick = (index: number) => {
         const updatedQueueEntries = queueEntries.filter((_, i) => i !== index);
         setQueueEntries(updatedQueueEntries);
     };
@@ -68,7 +77,7 @@ const AddTrackingCode = () => {
     return (
         <>
             <div className="join">
-            <h1 className="text-3xl text-amber-700 font-semibold mt-10 ml-20 mr-10">Enter Tracking Code</h1>
+                <h1 className="text-3xl text-amber-700 font-semibold mt-10 ml-20 mr-10">Enter Tracking Code</h1>
                 <input 
                     className="input input-bordered join-item border-stone-300 w-96 mt-10"
                     placeholder="Tracking Code" 
@@ -82,7 +91,8 @@ const AddTrackingCode = () => {
             {error && 
                 <div className="text-red-500 text-lg font-semibold mt-5 mb-5 ml-20 mr-20 flex items-center justify-center bg-red-100 p-4 rounded-lg">
                     <p>{error}</p>
-                </div>}
+                </div>
+            }
 
             {/* Display Queue Entries */}
             {queueEntries.length > 0 && (
