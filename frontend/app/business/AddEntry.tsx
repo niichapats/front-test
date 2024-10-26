@@ -25,7 +25,7 @@ const AddEntry = ({business_data}) => {
       queue_id: selectedQueue
     }
 
-    const response = await fetch('http://127.0.0.1:8000/api/business/add_entry/', {
+    const response = await fetch('api/business/add_entry/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const AddEntry = ({business_data}) => {
     return (
     <div className=' flex justify-between'>
       <select className="select select-bordered w-100" onChange={handleSelectedChange}>
-        {business_data.map(business => <option key={business.id} value={business.id}>{business.queue.name}</option>)}
+        {business_data.map(business => <option key={business.id} value={business.id}>{business.name}</option>)}
       </select>
       <div className="card-actions justify-end">
         <button className='btn btn-primary' onClick={handleAddClick}>

@@ -1,11 +1,26 @@
+'use client'
+
 import AddEntry from "./AddEntry";
 import AddQueue from "./AddQueue";
+import fetcher from "@/lib/fetcher";
+import useSWR from "swr";
 
-const BusinessPage = async () => {
-    const res = await fetch('http://127.0.0.1:8000/api/business/all-customers-entries/');
-    const business_data = await res.json();
-    console.log(business_data);
-    console.log(Array.isArray(business_data));
+const QUEUE_API_URL = "/api/queue/";
+
+const BusinessPage = () => {
+    // Initial fetch to get the list of queue IDs
+    const { data: business_data, error } = useSWR(QUEUE_API_URL, fetcher);
+    if (error) return <div>Failed to load queues</div>;
+    if (!business_data) return <div>Loading queues...</div>;
+
+  // Ensure business_data is an array
+  console.log(business_data);
+  console.log(Array.isArray(business_data));
+
+    // const res = await fetch('http://127.0.0.1:8000/api/business/queue/');
+    // const business_data = await res.json();
+    // console.log(business_data);
+    // console.log(Array.isArray(business_data));
   return (
     <>
       <div className="px-4 md:px-8 lg:px-12 bg-[#FEF9F2] min-h-screen">
@@ -33,7 +48,7 @@ const BusinessPage = async () => {
               {business_data.map(business => (
                 <div className="card bg-base-100 max-w-md h-100 shadow-xl" key={business.id}>
                   <div className="card-body">
-                    <h2 className="card-title">{business.queue.name}</h2>
+                    <h2 className="card-title">{business.name}</h2>
                     <h4 className="card-body">{business.name}</h4>
                   </div>
                 </div>
