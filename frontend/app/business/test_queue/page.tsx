@@ -2,12 +2,14 @@
 
 import { useAuth } from "@/components/authProvider";
 import fetcher from "@/lib/fetcher";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 const QUEUE_API_URL = "/api/queue/";
 
 export default function Home() {
+  const router = useRouter()
   const auth = useAuth();
   const [queueDetails, setQueueDetails] = useState([]);
   const [loadingDetails, setLoadingDetails] = useState(true);
@@ -17,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
       if (queueError?.status === 401) {
-        //   auth.loginRequiredRedirect();
+          router.replace('/business/login')
       }
   }, [auth, queueError]);
 

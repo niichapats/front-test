@@ -66,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const logout = () => {
         setIsAuthenticated(false);
         localStorage.setItem(LOCAL_STORAGE_KEY, "0");
-        router.replace(LOGOUT_REDIRECT_URL);
+        // router.replace(LOGOUT_REDIRECT_URL);
     };
 
     const loginRequiredRedirect = () => {
