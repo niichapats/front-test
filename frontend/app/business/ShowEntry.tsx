@@ -27,7 +27,7 @@ const BusinessPage = () => {
           <div className="card bg-base-100 shadow-xl col-span-3 h-76 overflow-hidden w-full bg-lightYellow">
             <div className="card-body">
             <h1 className="card-title text-xl">Add Entry</h1>
-            <AddEntry business_data={queue}/>
+            <AddEntry queue={queue}/>
             </div>
           </div>
           <div className="card bg-base-100 shadow-xl col-span-2 h-76 overflow-hidden w-full bg-lightPurple">

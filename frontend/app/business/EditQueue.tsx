@@ -38,7 +38,41 @@ const EditQueue = ({queue}) => {
     setIsModalOpen(false);
     setEditedQueue('');
     setEditedAlphabet('');
-  } 
+  }
+
+  const handleEditedQueue = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setEditedQueue(event.target.value);
+  }
+
+  const handleEditedAlphabet = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setEditedAlphabet(event.target.value);
+  }
+
+  const handleSubmit = async (queueId: number) => {
+    try {
+      const response = await fetch(`/api/queue/${queueId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: editedQueue,
+            alphabet: editedAlphabet
+        })
+      })
+
+      if (!response.ok) {
+        console.log("Failed to save edited queue")
+        return
+      }
+
+      const data = await response.json()
+      console.log("Response:", data)
+    } catch (error) {
+      console.log("Error save edited queue:", error)
+    }
+  };
+
   return (
     <>
         <dialog id="edit_queue_modal" className="modal">

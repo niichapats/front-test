@@ -1,7 +1,11 @@
 'use client'
 import React, { useState, useEffect } from 'react'
+import { mutate } from 'swr';
 
-const AddEntry = ({ business_data }) => {
+const ENTRY_API_URL = (queueID) => `http://127.0.0.1:8000/api/business/get_entry/${queueID}`;
+
+const AddEntry = ({ queue }) => {
+  const queueID = queue.id
   const [selectedQueue, setSelectedQueue] = useState('');
   const [trackingCode, setTrackingCode] = useState(null);
 
@@ -42,6 +46,8 @@ const AddEntry = ({ business_data }) => {
       const data = await response.json()
       console.log("Response:", data)
       setTrackingCode(data.tracking_code)
+
+      mutate(ENTRY_API_URL(queueId));
     } catch (error) {
       console.log("Error adding entry:", error)
     }
@@ -70,8 +76,8 @@ const AddEntry = ({ business_data }) => {
         )}
       <div className='flex justify-between py-6'>
         <select className="select select-bordered w-100 h-26" onChange={handleSelectedChange}>
-          {business_data.map(business => (
-            <option key={business.id} value={business.id}>{business.name}</option>
+          {queue.map(q => (
+            <option key={q.id} value={q.id}>{q.name}</option>
           ))}
         </select>
         <div className="card-actions justify-end">
