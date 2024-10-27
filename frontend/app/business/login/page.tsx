@@ -37,6 +37,8 @@ const LoginForm: React.FC = () => {
 
             const data = await response.json();
             console.log('Login successful:', data);
+            localStorage.setItem('token', data.access); 
+            console.log('Response data:', data);
             router.replace('/business')
         } catch (err) {
             setError((err as Error).message); // Set error message to state

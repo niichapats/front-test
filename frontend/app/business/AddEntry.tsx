@@ -25,7 +25,7 @@ const AddEntry = ({business_data}) => {
       queue_id: selectedQueue
     }
 
-    const response = await fetch('api/business/add_entry/', {
+    const response = await fetch('http://127.0.0.1:8000/api/business/add_customer/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

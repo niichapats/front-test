@@ -3,7 +3,7 @@
 import React from 'react'
 import { useState } from 'react'
 
-const AddQueue = ({business_data}) => {
+const AddQueue = () => {
   const [newQueue, setnewQueue] = useState('');
   const [newAlphabet, setnewAlphabet] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
