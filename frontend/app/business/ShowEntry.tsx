@@ -3,24 +3,24 @@
 import AddEntry from "./AddEntry";
 import AddQueue from "./AddQueue";
 import fetcher from "@/lib/fetcher";
-import useSWR from "swr";
+import useSWR, { mutate }  from "swr";
 
 const QUEUE_API_URL = "/api/queue/";
 
 const BusinessPage = () => {
     // Initial fetch to get the list of queue IDs
     const { data: business_data, error } = useSWR(QUEUE_API_URL, fetcher);
+
+    const handleQueueAdded = () => {
+      mutate(QUEUE_API_URL); 
+    };
+
     if (error) return <div>Failed to load queues</div>;
     if (!business_data) return <div>Loading queues...</div>;
 
-  // Ensure business_data is an array
-  console.log(business_data);
-  console.log(Array.isArray(business_data));
+  // console.log(business_data);
+  // console.log(Array.isArray(business_data));
 
-    // const res = await fetch('http://127.0.0.1:8000/api/business/queue/');
-    // const business_data = await res.json();
-    // console.log(business_data);
-    // console.log(Array.isArray(business_data));
   return (
     <>
       <div className="px-4 md:px-8 lg:px-12 bg-[#FEF9F2] min-h-screen">
@@ -42,7 +42,7 @@ const BusinessPage = () => {
           <div className="card-body">
             <div className="card-title justify-between">
               <h2>All Queue</h2>
-              <AddQueue business_data={business_data} />
+              <AddQueue business_data={business_data} onQueueAdded={handleQueueAdded} />
             </div>
             <div className="grid grid-cols-4 gap-4">
               {business_data.map(business => (

@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import { useAuth } from "@/components/authProvider";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -10,6 +12,15 @@ interface FormData {
 
 const LoginForm: React.FC = () => {
     const router = useRouter()
+    const auth = useAuth();
+    // Redirect if the user is already authenticated
+    useEffect(() => {
+      if (auth.isAuthenticated) {
+          console.log('this user is already logged in')
+          router.replace('/business');
+      }
+    }, [auth, router]);
+
     const [formData, setFormData] = useState<FormData>({ username: '', password: '' });
     const [error, setError] = useState<string | null>(null);
 
@@ -36,7 +47,8 @@ const LoginForm: React.FC = () => {
             }
 
             const data = await response.json();
-            console.log('Login successful:', data);
+            auth.login(formData.username)
+            console.log('Login successful:', data, auth);
             router.replace('/business')
         } catch (err) {
             setError((err as Error).message); // Set error message to state
