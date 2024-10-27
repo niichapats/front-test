@@ -3,12 +3,17 @@
 import React, { useState } from 'react';
 
 interface QueueEntry {
-    business: string;
-    queueName: string;
-    date: string;
-    time: string;
-    status: string;
-    numberOfEntriesBefore: number;
+    model: string;
+    pk: number;
+    fields: {
+        name: string;
+        queue: number;
+        business: number;
+        tracking_code: string;
+        time_in: string;
+        time_out: string | null;
+        status: string;
+    };
 }
 
 const AddTrackingCode: React.FC = () => {
@@ -22,57 +27,59 @@ const AddTrackingCode: React.FC = () => {
 
     const handleEnterClick = async () => {
         if (trackingCode) {
-            const mockData: Record<string, QueueEntry> = {
-                "abc123": {
-                    business: "Mim & Friends",
-                    queueName: "B7-Medium",
-                    date: "Oct. 21, 2024",
-                    time: "4:00 PM",
-                    status: "waiting",
-                    numberOfEntriesBefore: 5
-                },
-                "def456": {
-                    business: "Chompoo & Friends",
-                    queueName: "C4-Big",
-                    date: "Oct. 21, 2024",
-                    time: "4:35 PM",
-                    status: "waiting",
-                    numberOfEntriesBefore: 3
-                },
-                "xyz123": {
-                    business: "Sushiro",
-                    queueName: "A12-Counter",
-                    date: "Oct. 21, 2024",
-                    time: "4:44 PM",
-                    status: "waiting",
-                    numberOfEntriesBefore: 7
+            try {
+                // API: Fetch entries without using trackingCode
+                const response = await fetch('http://127.0.0.1:8000/api/customer/all-my-entries');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
                 }
-            };
 
-            const queueDetails = mockData[trackingCode];
+                const data = await response.json();
+                console.log(data)
 
-            if (queueDetails) {
-                const entryExists = queueEntries.some(entry => entry.queueName === queueDetails.queueName);
+                if (data && Array.isArray(data)) {
+                    const entryExists = data.some((entry: QueueEntry) => entry.fields.tracking_code === trackingCode);
 
-                if (!entryExists) {
-                    setQueueEntries([...queueEntries, queueDetails]);
-                    setError('');
-                    setTrackingCode('');
+                    if (!entryExists) {
+                        setError('Invalid Tracking Code');
+                    } else {
+                        setQueueEntries(data);
+                        setError('');
+                        setTrackingCode('');
+                    }
                 } else {
-                    setError('This queue entry already exists.');
+                    setError('No entries found.');
                 }
-            } else {
-                setError('Invalid Tracking Code');
+            } catch (error) {
+                console.error('Error fetching queue details:', error);
+                setError('An error occurred while fetching queue details: ' + error.message)
             }
         } else {
             setError('Please enter a Tracking Code');
         }
     };
 
-    const handleCancelClick = (index: number) => {
-        const updatedQueueEntries = queueEntries.filter((_, i) => i !== index);
-        setQueueEntries(updatedQueueEntries);
-    };
+    const handleCancelClick = async (index: number) => {
+        const queueEntry = queueEntries[index];
+    
+        try {
+            const response = await fetch('/api/customer/cancel/${queueEntry.pk}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to cancel entry');
+            }
+    
+            const updatedQueueEntries = queueEntries.filter((_, i) => i !== index);
+            setQueueEntries(updatedQueueEntries);
+        } catch (error) {
+            setError('An error occurred while canceling the queue entry.');
+        }
+    };    
 
     return (
         <>
