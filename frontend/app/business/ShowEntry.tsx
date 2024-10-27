@@ -19,10 +19,6 @@ const BusinessPage = () => {
   console.log(queue);
   console.log(Array.isArray(queue));
 
-    // const res = await fetch('http://127.0.0.1:8000/api/business/queue/');
-    // const business_data = await res.json();
-    // console.log(business_data);
-    // console.log(Array.isArray(business_data));
   return (
     <>
       <div className="px-4 md:px-8 lg:px-12 bg-[#FEF9F2] min-h-screen">

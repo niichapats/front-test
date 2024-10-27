@@ -18,6 +18,7 @@ const config: Config = {
         lightYellow: '#FFF8C9',
       },
       height: {
+        '26': '4rem',
         '76': '20rem',
         '100': '35rem',
       },

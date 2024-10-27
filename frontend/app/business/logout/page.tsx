@@ -2,41 +2,45 @@
 
 import { useAuth } from "@/components/authProvider";
 import { useRouter } from 'next/navigation';
-import { MouseEvent } from "react";
+import { useEffect } from "react";
 
 const LOGOUT_URL = "/api/logout/";
 
-export default function Page() {
-    const router = useRouter()
+export default function Page(): JSX.Element {
+    const router = useRouter();
     const auth = useAuth();
 
-    async function handleClick(event: MouseEvent<HTMLButtonElement>): Promise<void> {
-        event.preventDefault();
-        const requestOptions: RequestInit = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}), // You can add any required payload here
-        };
-        
-        const response = await fetch(LOGOUT_URL, requestOptions);
-        
-        if (response.ok) {
-            console.log("Logged out");
-            auth.logout();
-            router.replace('/business/login')
+    useEffect(() => {
+        async function handleLogout(): Promise<void> {
+            const requestOptions: RequestInit = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({}), // Optional payload
+            };
+
+            try {
+                const response = await fetch(LOGOUT_URL, requestOptions);
+                
+                if (response.ok) {
+                    console.log("Logged out");
+                    auth.logout();
+                    router.replace('/business/login'); // Redirect to login
+                } else {
+                    console.error("Failed to log out");
+                }
+            } catch (error) {
+                console.error("Error during logout:", error);
+            }
         }
-    }
+
+        handleLogout(); // Trigger logout when the page loads
+    }, [auth, router]);
 
     return (
-        <div className="h-[95vh]">
-            <div className='max-w-md mx-auto py-5'>
-                <h1>Are you sure you want to logout?</h1>
-                <button className='bg-red-500 text-white hover:bg-red-300 px-3 py-2' onClick={handleClick}>
-                    Yes, logout
-                </button>
-            </div>
+        <div className="h-[95vh] flex items-center justify-center">
+            <p>Logging out...</p>
         </div>
     );
 }

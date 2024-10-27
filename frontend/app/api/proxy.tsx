@@ -63,6 +63,7 @@ export default class ApiProxy {
             headers,
             body: jsonData
         }
+        console.log(headers)
         return await ApiProxy.handleFetch(endpoint, requestOptions)
     }
 
