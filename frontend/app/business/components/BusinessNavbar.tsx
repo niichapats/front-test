@@ -30,7 +30,7 @@ export default function BusinessNavbar() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/business/login">
+                                <Link href="/business/logout">
                                     Logout
                                 </Link>
                             </li>

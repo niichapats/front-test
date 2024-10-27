@@ -1,51 +1,50 @@
 'use client'
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
-const AddEntry = ({business_data}) => {
-  const [selectedQueue, setselectedQueue] = useState('');
+const AddEntry = ({ business_data }) => {
+  const [selectedQueue, setSelectedQueue] = useState('');
 
-  const handleSelectedChange = (event) => {
-    setselectedQueue(event.target.value);
+  const handleSelectedChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedQueue(event.target.value);
   }
 
-  const handleAddClick = async (e) => {
+  const handleAddClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (selectedQueue) {
-      console.log('Selected Queue id:', selectedQueue);
-      await handleSubmit();
-    }
-    else {
-      console.log('No selected');
-    }
-  }
-
-  const handleSubmit = async (e) => {
-    const formData = {
-      queue_id: selectedQueue
-    }
-
-    const response = await fetch('api/business/add_entry/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-
-    const data = await response.json();
-
-    if(response.ok) {
-      console.log('Success: ', data)
-    }
-    else {
-      console.error('Error:', data)
+      console.log('Selected Queue id:', selectedQueue)
+      await handleSubmit(parseInt(selectedQueue, 10))
+    } else {
+      console.log('No selected')
     }
   }
-    return (
-    <div className=' flex justify-between'>
+
+  const handleSubmit = async (queueId: number) => {
+    try {
+      const response = await fetch(`/api/queue/${queueId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        console.log("Failed to add entry")
+        return
+      }
+
+      const data = await response.json()
+      console.log("Response:", data)
+    } catch (error) {
+      console.log("Error adding entry:", error)
+    }
+  };
+
+  return (
+    <div className='flex justify-between'>
       <select className="select select-bordered w-100" onChange={handleSelectedChange}>
-        {business_data.map(business => <option key={business.id} value={business.id}>{business.name}</option>)}
+        {business_data.map(business => (
+          <option key={business.id} value={business.id}>{business.name}</option>
+        ))}
       </select>
       <div className="card-actions justify-end">
         <button className='btn btn-primary' onClick={handleAddClick}>
@@ -56,4 +55,4 @@ const AddEntry = ({business_data}) => {
   )
 }
 
-export default AddEntry
+export default AddEntry;
