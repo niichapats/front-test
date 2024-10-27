@@ -18,7 +18,7 @@ const AddTrackingCode: React.FC = () => {
 
     const handleTrackingCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTrackingCode(event.target.value);
-    }
+    };
 
     const handleEnterClick = async () => {
         if (trackingCode) {
@@ -96,31 +96,33 @@ const AddTrackingCode: React.FC = () => {
 
             {/* Display Queue Entries */}
             {queueEntries.length > 0 && (
-                <div className="mt-10">
+                <div className="mt-10 ml-20 mr-20">
                     {queueEntries.map((queueInfo, index) => (
-                        <div key={index} className="mb-5 ml-20 mr-20 bg-orange-50 p-6 rounded-lg shadow-lg flex items-center justify-between">
-                            <div>
-                                <h3 className="text-xl text-orange-900 font-semibold">
-                                    {queueInfo.business} ({queueInfo.queueName})
-                                </h3>
-                                <p className="text-sm text-orange-700 font-semibold">
-                                    Date: {queueInfo.date}, {queueInfo.time}
-                                </p>
-                                <p className="text-sm text-orange-500 font-semibold">
-                                    Status: {queueInfo.status}
-                                </p>
-                            </div>
-
-                            <div className="flex items-center">
-                                {/* Number of entries ahead */}
-                                <div className="bg-orange-500 text-white font-bold py-2 px-4 rounded-md shadow-md mr-4">
-                                    <p>{queueInfo.numberOfEntriesBefore} ahead of you</p>
+                        <div key={index} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-full">
+                            <div className="flex justify-between">
+                                <div>
+                                    <h3 className="text-xl text-orange-900 font-semibold">
+                                        {queueInfo.business} ({queueInfo.queueName})
+                                    </h3>
+                                    <p className="text-sm text-orange-700 font-semibold">
+                                        Date: {queueInfo.date}, {queueInfo.time}
+                                    </p>
+                                    <p className="text-sm text-orange-500 font-semibold">
+                                        Status: {queueInfo.status}
+                                    </p>
                                 </div>
-                                
-                                {/* Cancel button */}
-                                <button className="btn bg-red-600 text-white" onClick={() => handleCancelClick(index)}>
-                                    Cancel
-                                </button>
+
+                                <div className="flex items-center">
+                                    {/* Number of entries ahead */}
+                                    <div className="bg-orange-500 text-white font-bold py-2 px-4 rounded-md shadow-md mr-4">
+                                        <p>{queueInfo.numberOfEntriesBefore} ahead of you</p>
+                                    </div>
+                                    
+                                    {/* Cancel button */}
+                                    <button className="btn bg-red-600 text-white" onClick={() => handleCancelClick(index)}>
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))}
