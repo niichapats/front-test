@@ -3,6 +3,7 @@
 import AddEntry from "./AddEntry";
 import AddQueue from "./AddQueue";
 import RunQueue from "./RunQueue";
+import EditQueue from "./EditQueue";
 import fetcher from "@/lib/fetcher";
 import useSWR from "swr";
 
@@ -46,8 +47,10 @@ const BusinessPage = () => {
               {queue.map(q => (
                 <div className="card bg-base-100 max-w-md h-100 shadow-xl" key={q.id}>
                   <div className="card-body">
-                    <h2 className="card-title">{q.name}</h2>
-                    {/* <h4 className="card-body">{q.name}</h4> */}
+                    <div className="flex justify-between">
+                      <h2 className="card-title">{q.name}</h2>
+                      <EditQueue queue={q}/>
+                    </div>
                     <RunQueue queue={q}/>
                   </div>
                 </div>

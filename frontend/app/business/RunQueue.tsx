@@ -1,6 +1,6 @@
 import React from 'react'
 import fetcher from "@/lib/fetcher";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { useState } from 'react';
 
 const ENTRY_API_URL = (queueID) => `http://127.0.0.1:8000/api/business/get_entry/${queueID}`;
@@ -21,14 +21,13 @@ const RunQueue = ({queue}) => {
     console.log('Selected Entry id:', entryId);
     
     try {
-      console.log('Mimmmmmmmm')
       const response = await fetch(`/api/entry/${entryId}`, { // Adjusted URL as needed
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log('chompoooooooooooo')
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Failed to run queue:", errorData);
@@ -37,7 +36,9 @@ const RunQueue = ({queue}) => {
   
       const data = await response.json();
       console.log("Response:", data);
-  
+      
+      mutate(ENTRY_API_URL(queueId));
+
     } catch (error) {
       console.error("Error completing entry:", error);
     }

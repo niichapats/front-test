@@ -7,8 +7,7 @@ import ApiProxy from "../../proxy";
 const DJANGO_API_RUN_QUEUE_URL = `${DJANGO_API_ENDPOINT}/business/runQueue/`;
 
 
-export async function POST(request: Request, { params }, { params: { id: string } }) {
-    console.log('hi')
+export async function POST(request: Request, { params }: { params: { id: string } }) {
     const endpoint = params?.id ? `${DJANGO_API_RUN_QUEUE_URL}${params.id}` : null;
 
     try {
