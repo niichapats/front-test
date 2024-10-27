@@ -27,20 +27,20 @@ const BusinessPage = () => {
     <>
       <div className="px-4 md:px-8 lg:px-12 bg-[#FEF9F2] min-h-screen">
         <div className="grid grid-cols-5 gap-4 w-full">
-          <div className="card bg-base-100 shadow-xl col-span-3 h-76 overflow-hidden w-full bg-[#D1E9F6]">
+          <div className="card bg-base-100 shadow-xl col-span-3 h-76 overflow-hidden w-full bg-lightYellow">
             <div className="card-body">
             <h1 className="card-title text-xl">Add Entry</h1>
             <AddEntry business_data={queue}/>
             </div>
           </div>
-          <div className="card bg-base-100 shadow-xl col-span-2 h-76 overflow-hidden w-full bg-[#D2E0FB]">
+          <div className="card bg-base-100 shadow-xl col-span-2 h-76 overflow-hidden w-full bg-lightPurple">
             <div className="card-body">
             <h1 className="card-title text-xl">Estimate Time</h1>
             </div>
           </div>
         </div>
         <div className="pt-6"/>
-         <div className="card bg-base-100 w-full shadow-xl bg-[#BFECFF]">
+         <div className="card bg-base-100 w-full shadow-xl bg-lightSky">
           <div className="card-body">
             <div className="card-title justify-between">
               <h2>All Queue</h2>

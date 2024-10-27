@@ -18,7 +18,7 @@ const RunQueue = ({queue}) => {
     <>
       {entry.length > 0 ? (
       entry.map((e) => (
-        <h4>{e.name}</h4>
+        <h4 key={e.id}>{e.name}</h4>
       ))
     ) : (
       <h4 className="card-body">No entries found</h4>

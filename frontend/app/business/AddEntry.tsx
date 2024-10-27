@@ -20,7 +20,7 @@ const AddEntry = ({business_data}) => {
     }
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     const formData = {
       queue_id: selectedQueue
     }
@@ -29,6 +29,7 @@ const AddEntry = ({business_data}) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify(formData),
     })
