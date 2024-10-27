@@ -1,10 +1,22 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react';
+import { useAuth } from "@/components/authProvider";
+import { useRouter } from 'next/navigation';
 import BusinessPage from './ShowEntry'
 import BusinessNavbar from './components/BusinessNavbar'
 
 const Business = () => {
+  const router = useRouter()
+  const auth = useAuth();
+  // Redirect if the user is already authenticated
+  useEffect(() => {
+    if (!auth.isAuthenticated) {
+        console.log('this user is not logged in')
+        router.replace('/business/login');
+    }
+  }, [auth, router]);
+
   return (
     <main>
         <BusinessNavbar/>

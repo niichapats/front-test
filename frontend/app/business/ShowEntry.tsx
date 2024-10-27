@@ -49,7 +49,8 @@ const BusinessPage = () => {
                 <div className="card bg-base-100 max-w-md h-100 shadow-xl" key={business.id}>
                   <div className="card-body">
                     <h2 className="card-title">{business.name}</h2>
-                    <h4 className="card-body">{business.name}</h4>
+
+                    <h4 className="card-body">{business.id}</h4>
                   </div>
                 </div>
             ))}
