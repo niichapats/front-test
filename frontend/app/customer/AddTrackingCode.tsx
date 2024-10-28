@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import useSWR from 'swr';
+import fetcher from "@/lib/fetcher";
 
 interface QueueEntry {
     model: string;
-    pk: number;
+    id: number;
     fields: {
         name: string;
         queue: number;
@@ -16,70 +18,68 @@ interface QueueEntry {
     };
 }
 
+
 const AddTrackingCode: React.FC = () => {
     const [trackingCode, setTrackingCode] = useState<string>('');
-    const [queueEntries, setQueueEntries] = useState<QueueEntry[]>([]);
+    const [postedData, setPostedData] = useState<QueueEntry | null>(null);
     const [error, setError] = useState<string>('');
+
+    const { data: queueEntries, error: fetchError } = useSWR('http://127.0.0.1:8000/api/customer/all-my-entries/', fetcher);
+    if (fetchError) return <div>Failed to load queues</div>;
+    if (!queueEntries) return <div>Loading queues...</div>;
 
     const handleTrackingCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTrackingCode(event.target.value);
     };
 
     const handleEnterClick = async () => {
-        if (trackingCode) {
-            try {
-                // API: Fetch entries without using trackingCode
-                const response = await fetch('http://127.0.0.1:8000/api/customer/all-my-entries');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch data');
-                }
-
-                const data = await response.json();
-                console.log(data)
-
-                if (data && Array.isArray(data)) {
-                    const entryExists = data.some((entry: QueueEntry) => entry.fields.tracking_code === trackingCode);
-
-                    if (!entryExists) {
-                        setError('Invalid Tracking Code');
-                    } else {
-                        setQueueEntries(data);
-                        setError('');
-                        setTrackingCode('');
-                    }
-                } else {
-                    setError('No entries found.');
-                }
-            } catch (error) {
-                console.error('Error fetching queue details:', error);
-                setError('An error occurred while fetching queue details: ' + error.message)
-            }
-        } else {
+        console.log("Token:", localStorage.getItem("token")); 
+        if (!trackingCode) {
             setError('Please enter a Tracking Code');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/customer/add-trackcode/${trackingCode}/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tracking_code: trackingCode }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add tracking code');
+            }
+
+            const data = await response.json();
+            setPostedData(data);
+            setTrackingCode('');
+            setError('');
+
+        } catch (error) {
+            setError('An error occurred while adding the tracking code');
         }
     };
 
-    const handleCancelClick = async (index: number) => {
-        const queueEntry = queueEntries[index];
-    
+    const handleCancelClick = async () => {
         try {
-            const response = await fetch('/api/customer/cancel/${queueEntry.pk}', {
+            const response = await fetch(`/api/customer/cancel/`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({ tracking_code: trackingCode }),
             });
-    
+
             if (!response.ok) {
-                throw new Error('Failed to cancel entry');
+                throw new Error('Failed to add tracking code');
             }
-    
-            const updatedQueueEntries = queueEntries.filter((_, i) => i !== index);
-            setQueueEntries(updatedQueueEntries);
+
         } catch (error) {
             setError('An error occurred while canceling the queue entry.');
         }
-    };    
+    };
 
     return (
         <>
@@ -101,18 +101,29 @@ const AddTrackingCode: React.FC = () => {
                 </div>
             }
 
+            {/* Display posted data */}
+            {postedData && (
+                <div className="mt-5 ml-20 mr-20">
+                    <h2 className="text-xl font-semibold">Tracking Code Submitted:</h2>
+                    <p>Business: {postedData.fields.business}</p>
+                    <p>Name: {postedData.fields.name}</p>
+                    <p>Status: {postedData.fields.status}</p>
+                    <p>Time In: {postedData.fields.time_in}</p>
+                </div>
+            )}
+
             {/* Display Queue Entries */}
-            {queueEntries.length > 0 && (
+            {queueEntries && queueEntries.length > 0 && (
                 <div className="mt-10 ml-20 mr-20">
-                    {queueEntries.map((queueInfo, index) => (
-                        <div key={index} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-full">
+                    {queueEntries.map((queueInfo: QueueEntry) => (
+                        <div key={queueInfo.id} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-full">
                             <div className="flex justify-between">
                                 <div>
                                     <h3 className="text-xl text-orange-900 font-semibold">
-                                        {queueInfo.business} ({queueInfo.queueName})
+                                        {queueInfo.business} ({queueInfo.name})
                                     </h3>
                                     <p className="text-sm text-orange-700 font-semibold">
-                                        Date: {queueInfo.date}, {queueInfo.time}
+                                        Time In: {queueInfo.time_in}, Time Out: {queueInfo.time_out || 'N/A'}
                                     </p>
                                     <p className="text-sm text-orange-500 font-semibold">
                                         Status: {queueInfo.status}
@@ -120,13 +131,8 @@ const AddTrackingCode: React.FC = () => {
                                 </div>
 
                                 <div className="flex items-center">
-                                    {/* Number of entries ahead */}
-                                    <div className="bg-orange-500 text-white font-bold py-2 px-4 rounded-md shadow-md mr-4">
-                                        <p>{queueInfo.numberOfEntriesBefore} ahead of you</p>
-                                    </div>
-                                    
                                     {/* Cancel button */}
-                                    <button className="btn bg-red-600 text-white" onClick={() => handleCancelClick(index)}>
+                                    <button className="btn bg-red-600 text-white" onClick={() => handleCancelClick(queueInfo.id)}>
                                         Cancel
                                     </button>
                                 </div>

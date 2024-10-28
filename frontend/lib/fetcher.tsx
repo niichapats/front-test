@@ -4,8 +4,16 @@ interface FetchError extends Error {
 }
 
 const fetcher = async (url: string): Promise<any> => {
-  const res = await fetch(url);
-  
+  // const res = await fetch(url);
+  const token = localStorage.getItem('token');
+  console.log('token:', token)
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
   if (!res.ok) {
       const error: FetchError = new Error('An error occurred while fetching the data.');
       error.info = await res.json();
