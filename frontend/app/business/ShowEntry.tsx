@@ -5,14 +5,18 @@ import AddQueue from "./AddQueue";
 import RunQueue from "./RunQueue";
 import EditQueue from "./EditQueue";
 import fetcher from "@/lib/fetcher";
-import useSWR from "swr";
-
+import useSWR, { mutate }  from "swr";
 const QUEUE_API_URL = "/api/queue/";
 
 
 const BusinessPage = () => {
   // Initial fetch to get the list of queue IDs
   const { data: queue, error: queueError } = useSWR(QUEUE_API_URL, fetcher);
+
+  const handleQueueAdded = () => {
+    mutate(QUEUE_API_URL); 
+  };
+
   if (queueError) return <div>Failed to load queues</div>;
   if (!queue) return <div>Loading queues...</div>;
 
@@ -41,7 +45,7 @@ const BusinessPage = () => {
           <div className="card-body">
             <div className="card-title justify-between">
               <h2>All Queue</h2>
-              <AddQueue/>
+              <AddQueue business_data={queue} onQueueAdded={handleQueueAdded} />
             </div>
             <div className="grid grid-cols-4 gap-4">
               {queue.map(q => (
