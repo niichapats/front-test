@@ -20,7 +20,7 @@ interface QueueInfo {
 
 const AddTrackingCode: React.FC = () => {
     const [trackingCode, setTrackingCode] = useState<string>('');
-    const [postedData, setPostedData] = useState<QueueInfo[]>([]); // Change to an array
+    const [postedData, setPostedData] = useState<QueueInfo[]>([]);
     const [error, setError] = useState<string>('');
 
     const handleTrackingCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +45,9 @@ const AddTrackingCode: React.FC = () => {
                 throw new Error('Failed to add tracking code');
             }
 
-            const data: QueueInfo[] = await response.json(); // Expecting an array
-            setPostedData(data);  // Set posted data when successfully fetched
-            setError(''); // Clear any previous errors
+            const data: QueueInfo[] = await response.json();
+            setPostedData(data);
+            setError('');
         } catch (error) {
             console.error('Error:', error);
             setError('An error occurred while adding the tracking code');
@@ -76,9 +76,9 @@ const AddTrackingCode: React.FC = () => {
             }
 
             {/* Display Queue Info after Button Click */}
-            {postedData.length > 0 && ( // Check if postedData has items
+            {postedData.length > 0 && (
                 <div className="mt-10 ml-20 mr-20">
-                    {postedData.map(item => ( // Use map to display each item
+                    {postedData.map(item => (
                         <div key={item.id} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-full">
                             <div className="flex justify-between">
                                 <div>
