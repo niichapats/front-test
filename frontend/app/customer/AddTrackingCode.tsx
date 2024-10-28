@@ -20,7 +20,7 @@ interface QueueInfo {
 
 const AddTrackingCode: React.FC = () => {
     const [trackingCode, setTrackingCode] = useState<string>('');
-    const [postedData, setPostedData] = useState<QueueInfo | null>(null);
+    const [postedData, setPostedData] = useState<QueueInfo[]>([]); // Change to an array
     const [error, setError] = useState<string>('');
 
     const handleTrackingCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,10 +45,8 @@ const AddTrackingCode: React.FC = () => {
                 throw new Error('Failed to add tracking code');
             }
 
-            const data = await response.json();
+            const data: QueueInfo[] = await response.json(); // Expecting an array
             setPostedData(data);  // Set posted data when successfully fetched
-            console.log(postedData)
-            console.log(postedData[0].business)
             setError(''); // Clear any previous errors
         } catch (error) {
             console.error('Error:', error);
@@ -78,33 +76,27 @@ const AddTrackingCode: React.FC = () => {
             }
 
             {/* Display Queue Info after Button Click */}
-            {postedData && postedData.length > 0 && (
+            {postedData.length > 0 && ( // Check if postedData has items
                 <div className="mt-10 ml-20 mr-20">
-                    <div key={postedData[0].id} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-full">
-                        <div className="flex justify-between">
-                            <div>
-                                <h3 className="text-xl text-orange-900 font-semibold">
-                                    {postedData[0].business} ({postedData[0].name})
-                                </h3>
-                                <p className="text-sm text-orange-700 font-semibold">
-                                    Time In: {postedData[0].time_in}, Time Out: {postedData[0].time_out || 'N/A'}
-                                </p>
-                                <p className="text-sm text-orange-500 font-semibold">
-                                    Status: {postedData[0].status}
-                                </p>
-                            </div>
-
-                            <div className="flex items-center">
-                                {/* Cancel button */}
-                                <button className="btn bg-red-600 text-white" onClick={() => handleCancelClick(postedData[0].id)}>
-                                    Cancel
-                                </button>
+                    {postedData.map(item => ( // Use map to display each item
+                        <div key={item.id} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-full">
+                            <div className="flex justify-between">
+                                <div>
+                                    <h3 className="text-xl text-orange-900 font-semibold">
+                                        {item.business} ({item.name})
+                                    </h3>
+                                    <p className="text-sm text-orange-700 font-semibold">
+                                        Time In: {item.time_in}, Time Out: {item.time_out || 'N/A'}
+                                    </p>
+                                    <p className="text-sm text-orange-500 font-semibold">
+                                        Status: {item.status}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             )}
-
         </>
     );
 };
