@@ -10,10 +10,13 @@ export default function CustomerNavBar() {
     return (
         <div className='navbar fixed z-50'>
             <div className='flex-1'>
-                <Image src="/logo2.png" width={220} height={220} alt='logo'></Image>
+                <Image src="/logo2.png" width={220} height={200} alt='logo' />
             </div>
             <div className='flex-none'>
                 <ul className='menu menu-horizontal px-1'>
+                    <li>
+                        <Link href="/">Home</Link>
+                    </li>
                     <li>
                         <details>
                             <summary>Account</summary>
