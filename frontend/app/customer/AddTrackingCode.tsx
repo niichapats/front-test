@@ -45,6 +45,7 @@ const AddTrackingCode: React.FC = () => {
                 throw new Error('Failed to add tracking code');
             }
 
+
             const data: QueueInfo[] = await response.json();
             setPostedData(data);
             setError('');
@@ -58,7 +59,7 @@ const AddTrackingCode: React.FC = () => {
         <>
             {/* Input Section */}
             <div className='mt-10 text-center'>
-                <h1 className="text-3xl text-amber-700 font-semibold mt-10 ml-20 mr-10 ">Enter Tracking Code</h1>
+                <h1 className="text-3xl font-semibold mt-10 ml-20 mr-10 " style={{ color: '#e69cb4' }}>Enter Tracking Code</h1>
             </div>
             <div className="text-center">
                 <div className="join">
@@ -68,7 +69,7 @@ const AddTrackingCode: React.FC = () => {
                         value={trackingCode}
                         onChange={handleTrackingCodeChange}
                     />
-                    <button className="btn bg-amber-700 text-white join-item mt-10" onClick={() => handleEnterClick(trackingCode)}>Enter</button>
+                    <button className="btn bg-amber-700 text-white join-item mt-10" style={{ background: '#f7ad88' }} onClick={() => handleEnterClick(trackingCode)}>Enter</button>
                 </div>
             </div>
 
@@ -87,18 +88,18 @@ const AddTrackingCode: React.FC = () => {
                 <div className='flex justify-center'>
                 <div className="mt-10 ml-20 mr-20">
                     {postedData.map(item => (
-                        <div key={item.id} className="mb-5 card bg-orange-50 p-6 rounded-lg shadow-lg w-96 h-96">
+                        <div key={item.id} className="mb-5 card p-6 rounded-lg shadow-lg w-96 h-96" style={{background: '#f9f7d9'}}>
                             <div className="text-center">
                                 <div>
-                                    <h3 className="text-2xl text-orange-900 font-semibold">
+                                    <h3 className="text-2xl font-semibold" style={{color: '#9c4a05'}}>
                                         {item.business} ({item.name})
                                         <br />
                                         <br />
                                     </h3>
-                                    <h1 className="text-9xl text-orange-900">
+                                    <h1 className="text-9xl" style={{color: '#9e7207'}}>
                                         {item.queue_ahead}
                                     </h1>
-                                    <p className="text-base text-orange-900 font-semibold">
+                                    <p className="text-base text-orange-900 font-semibold" style={{color: '#9e7207'}}>
                                         Ahead of you
                                     </p>
                                     <p className="text-base text-orange-700 font-semibold">
