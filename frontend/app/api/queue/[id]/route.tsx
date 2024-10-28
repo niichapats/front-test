@@ -6,6 +6,7 @@ import ApiProxy from "../../proxy";
 
 const DJANGO_API_GET_ENTRY_URL = `${DJANGO_API_ENDPOINT}/business/get_entry/`;
 const DJANGO_API_ADD_ENTRY_URL = `${DJANGO_API_ENDPOINT}/business/add_entry/`;
+const DJANGO_API_EDIT_QUEUE_URL = `${DJANGO_API_ENDPOINT}/business/editQueue/`;
 
 
 interface ErrorResponse {
@@ -45,7 +46,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
 }
 
 export async function PUT(request: Request, { params }: { params: { id: string } }) {
-    const endpoint = params?.id ? `${DJANGO_API_ENTRY_URL}${params.id}/` : null;
+    const endpoint = params?.id ? `${DJANGO_API_EDIT_QUEUE_URL}${params.id}` : null;
 
     if (!endpoint) {
         return NextResponse.json<ErrorResponse>({ error: "ID parameter is missing" }, { status: 400 });
