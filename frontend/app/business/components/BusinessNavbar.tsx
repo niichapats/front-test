@@ -15,11 +15,11 @@ export default function BusinessNavbar() {
                 <Link href="/"><Image src="/logo.png" width={120} height={120} alt='logo'></Image></Link>
             </div>
             <div className='flex-none'>
-                <ul className='menu menu-horizontal px-1 bg-white rounded-lg h-10'>
+                <ul className='btn menu menu-horizontal px-1 bg-white rounded-full h-10 flex justify-center items-center'>
                     <li>
                         <details>
-                            <summary className='font-bold'>Account</summary>
-                            <ul className='absolute left-0 bg-base-100 mt-2 rounded-full p-2 shadow-md'>
+                            <summary className='font-bold flex items-center justify-center h-full'>Account</summary>
+                            <ul className='absolute left-0 bg-base-100 mt-2 rounded-lg p-2 shadow-md'>
                             <li>
                                 <Link href="/profile">
                                     Profile
