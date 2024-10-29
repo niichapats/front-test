@@ -10,20 +10,16 @@ export default function BusinessNavbar() {
     const pathname = usePathname()
 
     return (
-        <div className='navbar fixed z-50 bg-[#FEF9F2]'>
+        <div className='navbar fixed z-50 bg-darkPurple max-w-full'>
             <div className='flex-1'>
-                <Image src="/logo.png" width={50} height={50} alt='logo'></Image>
-                <Link href="/" className='btn btn-ghost text-2xl'>Queue Management</Link>
+                <Link href="/"><Image src="/logo.png" width={120} height={120} alt='logo'></Image></Link>
             </div>
             <div className='flex-none'>
-                <ul className='menu menu-horizontal px-1'>
-                    <li>
-                        <Link href="/">Home</Link>
-                    </li>
+                <ul className='menu menu-horizontal px-1 bg-white rounded-lg h-10'>
                     <li>
                         <details>
-                            <summary>Account</summary>
-                            <ul className='bg-base-100 rounded-t-none p-2'>
+                            <summary className='font-bold'>Account</summary>
+                            <ul className='absolute left-0 bg-base-100 mt-2 rounded-full p-2 shadow-md'>
                             <li>
                                 <Link href="/profile">
                                     Profile
