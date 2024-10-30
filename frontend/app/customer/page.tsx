@@ -1,13 +1,13 @@
 import React from 'react'
 import CustomerNavBar from './components/CustomerNavbar'
-import AddTrackingCode from './AddTrackingCode'
+import NewAddTrackingCode from './NewAddTrackingCode'
 
 const CustomerPage = () => {
   return (
     <main>
       <CustomerNavBar />
       <div className='pt-16'>
-        <AddTrackingCode />
+        <NewAddTrackingCode />
       </div>
     </main>
   )
