@@ -14,7 +14,7 @@ export default function BusinessNavbar() {
             <div className='flex-1'>
                 <Link href="/"><Image src="/logo.png" width={120} height={120} alt='logo'></Image></Link>
             </div>
-            <div className='flex-none'>
+            <div className='flex-none mr-2'>
                 <ul className='btn menu menu-horizontal px-1 bg-white rounded-full h-10 flex justify-center items-center'>
                     <li>
                         <details>
@@ -34,6 +34,11 @@ export default function BusinessNavbar() {
                         </details>
                     </li>
                 </ul>
+            </div>
+            <div className="avatar placeholder">
+            <div className="bg-[#ffef9d] w-12 rounded-full">
+                <span className="text-xl">D</span>
+            </div>
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import fetcher from "@/lib/fetcher";
 import useSWR, { mutate } from "swr";
 import { useState } from 'react';
 
-const ENTRY_API_URL = (queueID) => `http://127.0.0.1:8000/api/business/get_entry/${queueID}`;
+const ENTRY_API_URL = (queueID) => `http://127.0.0.1:8000/api/queue/get_entry/${queueID}`;
 
 const RunQueue = ({queue}) => {
   const queueId = queue.id

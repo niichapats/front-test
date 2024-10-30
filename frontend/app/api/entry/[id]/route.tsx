@@ -4,7 +4,7 @@ import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 import { NextResponse } from "next/server";
 import ApiProxy from "../../proxy";
 
-const DJANGO_API_RUN_QUEUE_URL = `${DJANGO_API_ENDPOINT}/business/runQueue/`;
+const DJANGO_API_RUN_QUEUE_URL = `${DJANGO_API_ENDPOINT}/entry/runQueue/`;
 
 
 export async function POST(request: Request, { params }: { params: { id: string } }) {
