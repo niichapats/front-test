@@ -4,9 +4,9 @@ import { DJANGO_API_ENDPOINT } from "@/config/defaults";
 import { NextResponse } from "next/server";
 import ApiProxy from "../../proxy";
 
-const DJANGO_API_GET_ENTRY_URL = `${DJANGO_API_ENDPOINT}/business/get_entry/`;
-const DJANGO_API_ADD_ENTRY_URL = `${DJANGO_API_ENDPOINT}/business/add_entry/`;
-const DJANGO_API_EDIT_QUEUE_URL = `${DJANGO_API_ENDPOINT}/business/editQueue/`;
+const DJANGO_API_GET_ENTRY_URL = `${DJANGO_API_ENDPOINT}/queue/get_entry/`;
+const DJANGO_API_ADD_ENTRY_URL = `${DJANGO_API_ENDPOINT}/queue/add_entry/`;
+const DJANGO_API_EDIT_QUEUE_URL = `${DJANGO_API_ENDPOINT}/queue/editQueue/`;
 const DJANGO_API_DELETE_QUEUE_URL = `${DJANGO_API_ENDPOINT}/business/deleteQueue/`;
 
 

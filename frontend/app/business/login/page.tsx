@@ -9,6 +9,7 @@ interface FormData {
 }
 
 const LoginForm: React.FC = () => {
+    
     const router = useRouter()
     const [formData, setFormData] = useState<FormData>({ username: '', password: '' });
     const [error, setError] = useState<string | null>(null);
@@ -20,7 +21,7 @@ const LoginForm: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        
         try {
             const response = await fetch('/api/login', {
                 method: 'POST',
