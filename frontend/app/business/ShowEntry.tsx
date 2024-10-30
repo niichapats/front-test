@@ -26,19 +26,7 @@ const BusinessPage = () => {
   return (
     <>
       <div className="px-4 md:px-8 lg:px-12 min-h-screen bg-[#FEF9F2]">
-      <div className="grid grid-cols-5 gap-4 w-full">
-          <div className="card bg-base-100 shadow-xl col-span-4 h-60 overflow-hidden w-full bg-lightPurple1">
-            <div className="card-body">
-            <h1 className="card-title text-xl">Add Entry</h1>
             <AddEntry queue={queue}/>
-            </div>
-          </div>
-          <div className="card bg-base-100 shadow-xl col-span-1 h-60 overflow-hidden w-full bg-cream">
-            <div className="card-body">
-            <h1 className="card-title text-xl">Qr Code</h1>
-            </div>
-          </div>
-        </div>
         <div className="pt-8"/>
          <div className="card bg-base-100 w-full shadow-xl bg-lightPurple2">
           <div className="card-body">

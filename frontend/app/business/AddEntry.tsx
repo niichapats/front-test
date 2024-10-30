@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { mutate } from 'swr';
+import QRCode from "qrcode";
 
 const ENTRY_API_URL = (queueID) => `http://127.0.0.1:8000/api/business/get_entry/${queueID}`;
 
@@ -8,10 +9,12 @@ const AddEntry = ({ queue }) => {
   const queueID = queue.id
   const [selectedQueue, setSelectedQueue] = useState('');
   const [trackingCode, setTrackingCode] = useState(null);
+  const [src, setSrc] = useState<string | null>(null); 
 
   useEffect(() => {
     if (trackingCode !== null) {
       console.log("Updated tracking code:", trackingCode);
+      generate();
     }
   }, [trackingCode]);
 
@@ -48,44 +51,68 @@ const AddEntry = ({ queue }) => {
       setTrackingCode(data.tracking_code)
 
       mutate(ENTRY_API_URL(queueId));
+      generate();
     } catch (error) {
       console.log("Error adding entry:", error)
     }
   };
 
+  const generate = () => {
+    console.log('to generate: ', trackingCode)
+    QRCode.toDataURL(`http://localhost:3000/business/${trackingCode}`).then(setSrc)
+  }
+
   return (
     <>
-        {trackingCode && (
-          <div role="alert" className="alert shadow-lg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="stroke-info h-6 w-6 shrink-0">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <div className='flex space-x-6'>
-            <h3 className="font-bold">Tracking Code</h3>
-            <h3 className="font-bold text-red-500">{trackingCode}</h3>
+        <div className="grid grid-cols-5 gap-4 w-full">
+          <div className="card bg-base-100 shadow-xl col-span-4 h-60 overflow-hidden w-full bg-lightPurple1">
+            <div className="card-body">
+            <h1 className="card-title text-xl">Add Entry</h1>
+            {trackingCode && (
+              <div role="alert" className="alert shadow-lg">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                className="stroke-info h-6 w-6 shrink-0">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div className='flex space-x-6'>
+                <h3 className="font-bold">Tracking Code</h3>
+                <h3 className="font-bold text-red-500">{trackingCode}</h3>
+              </div>
+            </div>
+            )}
+          <div className='space-x-3 flex py-6'>
+            <select className="select select-bordered w-100 h-26" onChange={handleSelectedChange}>
+              {queue.map(q => (
+                <option key={q.id} value={q.id}>{q.name}</option>
+              ))}
+            </select>
+            <div className="card-actions">
+              <button className='btn h-26 w-32' onClick={handleAddClick}>
+                Add
+              </button>
+            </div>
+          </div>
+          </div>
+          </div>
+          <div className="card bg-base-100 shadow-xl col-span-1 h-60 overflow-hidden w-full bg-cream">
+          <div className="card-body">
+            {src ? (
+              <img src={src} alt="QR Code" />
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full">
+                <p className="text-gray-500">No QR Code generated</p>
+              </div>
+            )}
+          </div>
           </div>
         </div>
-        )}
-      <div className='space-x-3 flex py-6'>
-        <select className="select select-bordered w-100 h-26" onChange={handleSelectedChange}>
-          {queue.map(q => (
-            <option key={q.id} value={q.id}>{q.name}</option>
-          ))}
-        </select>
-        <div className="card-actions">
-          <button className='btn h-26 w-32' onClick={handleAddClick}>
-            Add
-          </button>
-        </div>
-      </div>
     </>
   )
 }

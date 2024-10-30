@@ -26,7 +26,7 @@ const config: Config = {
       },
       height: {
         '26': '4rem',
-        '60': '15rem',
+        '60': '16rem',
         '76': '20rem',
         '100': '35rem',
       },
