@@ -74,14 +74,14 @@ const AddEntry = ({ queue }) => {
           </div>
         </div>
         )}
-      <div className='flex justify-between py-6'>
+      <div className='space-x-3 flex py-6'>
         <select className="select select-bordered w-100 h-26" onChange={handleSelectedChange}>
           {queue.map(q => (
             <option key={q.id} value={q.id}>{q.name}</option>
           ))}
         </select>
-        <div className="card-actions justify-end">
-          <button className='btn h-26' onClick={handleAddClick}>
+        <div className="card-actions">
+          <button className='btn h-26 w-32' onClick={handleAddClick}>
             Add
           </button>
         </div>

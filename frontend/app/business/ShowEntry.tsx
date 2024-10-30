@@ -16,10 +16,6 @@ const BusinessPage = () => {
   if (queueError) return <div>Failed to load queues</div>;
   if (!queue) return <div>Loading queues...</div>;
 
-  // Ensure business_data is an array
-  console.log(queue);
-  console.log(Array.isArray(queue));
-
   const handleQueueAdded = () => {
     mutate(QUEUE_API_URL); 
   };
@@ -27,15 +23,11 @@ const BusinessPage = () => {
   if (queueError) return <div>Failed to load queues</div>;
   if (!queue) return <div>Loading queues...</div>;
 
-  // Ensure business_data is an array
-  console.log(queue);
-  console.log(Array.isArray(queue));
-
   return (
     <>
       <div className="px-4 md:px-8 lg:px-12 min-h-screen bg-[#FEF9F2]">
       <div className="grid grid-cols-5 gap-4 w-full">
-          <div className="card bg-base-100 shadow-xl col-span-4 h-60 overflow-hidden w-full bg-lightYellow">
+          <div className="card bg-base-100 shadow-xl col-span-4 h-60 overflow-hidden w-full bg-lightPurple1">
             <div className="card-body">
             <h1 className="card-title text-xl">Add Entry</h1>
             <AddEntry queue={queue}/>
@@ -56,7 +48,7 @@ const BusinessPage = () => {
             </div>
             <div className="grid grid-cols-4 gap-4">
               {queue.map(q => (
-                <div className="card bg-base-100 w-66 h-96 shadow-xl" key={q.id}>
+                <div className="card bg-base-100 w-66 shadow-xl" key={q.id}>
                   <div className="card-body">
                     <div className="flex justify-between">
                       <h2 className="card-title">{q.name}</h2>

@@ -26,7 +26,6 @@ const EditQueue = ({queue}) => {
   }
 
   const handleAddClick = (queueID) => {
-    console.log('MIMMMMMMM: ', QueueId)
     if (editedQueue && editedAlphabet) {
       handleSubmit(parseInt(QueueId, 10));
       console.log('New Queue:', editedQueue);
@@ -41,7 +40,6 @@ const EditQueue = ({queue}) => {
   const openModal = (queueId) => {
     setIsModalOpen(true);
     setQueueId(queueId);
-    console.log('Open: ', QueueId);
     const modal = document.getElementById(QueueId);
     if (modal) {
         modal.showModal();
@@ -63,7 +61,6 @@ const EditQueue = ({queue}) => {
   }
 
   const handleSubmit = async (queueId: number) => {
-    console.log("submit: ", queueId)
     try {
       const response = await fetch(`/api/queue/${queueId}`, {
         method: "PUT",
@@ -89,6 +86,31 @@ const EditQueue = ({queue}) => {
       console.log("Error save edited queue:", error)
     }
   };
+
+  const handleDeleteClick = async (queueId: number) => {
+    console.log('Before delete: ', queueId)
+    try {
+      const response = await fetch(`/api/queue/${queueId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+
+      if (!response.ok) {
+        console.log("Failed to delete queue")
+        return
+      }
+      
+      const data = await response.json()
+      console.log("Response:", data)
+
+      mutate(QUEUE_API_URL);
+    } catch (error) {
+      console.log("Error save delete queue:", error)
+    }
+  };
+    
 
   return (
     <>
@@ -117,10 +139,10 @@ const EditQueue = ({queue}) => {
                   value={editedAlphabet} onChange={handleAlphabetChange}/>
             </label>
             <br></br>
-            <form onSubmit={(e) => { e.preventDefault(); handleAddClick(); }}>
+            <form onSubmit={(e) => { e.preventDefault() }}>
                 <div className='flex space-x-3'>
-                    <button type="submit" className='btn btn-primary'>Save</button>
-                    <button type="button" className='btn' onClick={closeModal}>Delete</button>
+                    <button type="submit" className='btn btn-primary' onClick={handleAddClick}>Save</button>
+                    <button type="button" className='btn' onClick={() => handleDeleteClick(QueueId)}>Delete</button>
                 </div>
             </form>
         </div>

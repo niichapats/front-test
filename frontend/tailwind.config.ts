@@ -13,7 +13,7 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         lightBlue: '#D1E9F6',
-        lightPurple1: '#A6B1E1',
+        lightPurple1: '#F7DBF0',
         lightPurple2: '#F4EEFF',
         lightSky: '#BFECFF',
         lightYellow: '#FFF8C9',
@@ -31,6 +31,7 @@ const config: Config = {
         '100': '35rem',
       },
       width: {
+        '32': '8rem',
         '100': '40rem'
       }
     },
