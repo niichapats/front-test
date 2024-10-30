@@ -12,7 +12,7 @@ const CustomerPage: React.FC = () => {
     const fetchData = async () => {
       if (trackingCode) {
         try {
-          const response = await fetch(`http://127.0.0.1:8000/api/customer/add-trackcode/${trackingCode}`, {
+          const response = await fetch(`http://127.0.0.1:8000/api/entry/add-tracking-code/${trackingCode}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const CustomerPage: React.FC = () => {
           }
 
           const result = await response.json();
-          setData(Array.isArray(result) ? result : [result]); // Ensure data is an array
+          setData(Array.isArray(result) ? result : [result]);
         } catch (error) {
           console.error('Error fetching data:', error);
           setError('An error occurred while fetching data');
