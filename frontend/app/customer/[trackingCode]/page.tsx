@@ -25,6 +25,7 @@ const CustomerPage: React.FC = () => {
 
           const result = await response.json();
           setData(Array.isArray(result) ? result : [result]);
+
         } catch (error) {
           console.error('Error fetching data:', error);
           setError('An error occurred while fetching data');
@@ -45,30 +46,40 @@ const CustomerPage: React.FC = () => {
         <div className="flex justify-center">
           <div className="mt-10 ml-20 mr-20">
             {data.map(item => (
-              <div key={item.id} className="mb-5 card p-6 rounded-lg shadow-lg w-96 h-96" style={{ background: '#f9f7d9' }}>
-                <div className="text-center">
-                  <div>
-                    <h3 className="text-2xl font-semibold" style={{ color: '#9c4a05' }}>
-                      {item.business} ({item.name})
-                      <br />
-                      <br />
-                    </h3>
-                    <h1 className="text-9xl" style={{ color: '#9e7207' }}>
+              <div key={item.id} className="mb-10 text-center">
+                <h3 className="text-2xl font-semibold mb-5 text-blue-950">
+                  {item.business}
+                </h3>
+
+                <div className="flex justify-center mt-10">
+                  <div className="flex flex-row space-x-4 w-full max-w-4xl">
+                    {/* First box */}
+                    <div className="flex-auto bg-cyan-100 p-4 rounded-lg shadow-lg">
+                      <h3 className="text-center text-xl font-semibold">{item.name}</h3>
+                    </div>
+
+                    {/* Second box */}
+                    <div className="flex-auto bg-teal-100 p-4 rounded-lg shadow-lg">
+                      <h3 className="text-center text-xl font-semibold">{item.status}</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card-auto p-6 rounded-lg shadow-lg mt-10 bg-lightPurple2 ">
+                  <div className="text-center">
+                    <h1 className="text-9xl text-darkPurple">
                       {item.queue_ahead}
                     </h1>
-                    <p className="text-base text-orange-900 font-semibold" style={{ color: '#9e7207' }}>
+                    <p className="text-l font-semibold text-darkPurple">
                       Ahead of you
-                    </p>
-                    <p className="text-base text-orange-700 font-semibold">
-                      <br />
-                      <br />
-                      Time In: {item.time_in}
-                    </p>
-                    <p className="text-base text-orange-500 font-semibold">
-                      Status: {item.status}
                     </p>
                   </div>
                 </div>
+                <div className="flex-auto-48 p-6 rounded-lg shadow-lg bg-lightPurple1 mt-10">
+                      <p className="text-l text-pink-900 font-semibold">
+                        Time In: {item.time_in}
+                      </p>
+                    </div> 
               </div>
             ))}
           </div>
@@ -78,6 +89,6 @@ const CustomerPage: React.FC = () => {
       )}
     </div>
   );
-};
+}  
 
 export default CustomerPage;
