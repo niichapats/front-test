@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState } from 'react';
 
 const NewAddTrackingCode: React.FC = () => {
@@ -16,22 +16,35 @@ const NewAddTrackingCode: React.FC = () => {
     }
   };
 
+  const addTrackingCodeBackground = {
+    backgroundImage: "url('/add_tracking_code_bg.png')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    width: '100vw',
+    height: '100vh',
+    overflow: 'hidden',
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="text-center mt-20">
-      <h1 className="text-3xl font-semibold mt-30" style={{ color: '#ae9ce6' }}>Enter Tracking Code</h1>
-      <div className="mt-10">
-        <input
-          type="text"
-          placeholder="Tracking Code"
-          value={trackingCode}
-          onChange={handleTrackingCodeChange}
-          className="input input-bordered border-stone-300 w-96"
-        />
-        <button type="submit" className="btn text-white ml-3" style={{ background: '#dbb8ed' }}>
-          Enter
-        </button>
-      </div>
-    </form>
+    <div style={addTrackingCodeBackground}>
+      <form onSubmit={handleSubmit} className="text-center">
+        <h1 className="text-3xl font-semibold mb-8 mt-36 text-brightPink">
+          Enter Tracking Code
+        </h1>
+        <div>
+          <input
+            type="text"
+            placeholder="Tracking Code"
+            value={trackingCode}
+            onChange={handleTrackingCodeChange}
+            className="input input-bordered border-stone-300 w-96"
+          />
+          <button type="submit" className="btn text-white ml-3 bg-brightPink2">
+            Enter
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
