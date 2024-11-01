@@ -39,7 +39,7 @@ const NewAddTrackingCode: React.FC = () => {
             onChange={handleTrackingCodeChange}
             className="input input-bordered border-stone-300 w-96"
           />
-          <button type="submit" className="btn text-white ml-3 bg-brightPink2">
+          <button type="submit" className="btn text-white ml-3 bg-brightPink2 hover:bg-fuchsia-700">
             Enter
           </button>
         </div>
