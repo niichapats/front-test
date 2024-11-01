@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { Result } from 'postcss';
 
 const CustomerPage: React.FC = () => {
   const { trackingCode } = useParams();
@@ -36,58 +37,60 @@ const CustomerPage: React.FC = () => {
     };
 
     fetchData();
+    console.log(data)
   }, [trackingCode]);
 
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      {data.length > 0 ? (
-        <div className="flex justify-center">
-          <div className="mt-10 ml-20 mr-20">
-            {data.map(item => (
-              <div key={item.id} className="mb-10 text-center">
-                <h3 className="text-2xl font-semibold mb-5 text-blue-950">
-                  {item.business}
-                </h3>
+    <div className="bg-cream2 w-screen h-screen overflow-hidden">
+    {data.length > 0 ? (
+      <div className="flex justify-center">
+        <div className="mt-10 md:mt-20 px-4 md:px-20 w-full max-w-5xl">
+          {data.map(item => (
+            <div key={item.id} className="mb-8 md:mb-10 text-center">
+              <h3 className="text-xl md:text-2xl font-semibold mb-4 md:mb-5 text-blue-950">
+                {item.business}
+              </h3>
 
-                <div className="flex justify-center mt-10">
-                  <div className="flex flex-row space-x-4 w-full max-w-4xl">
-                    {/* First box */}
-                    <div className="flex-auto bg-cyan-100 p-4 rounded-lg shadow-lg">
-                      <h3 className="text-center text-xl font-semibold">{item.name}</h3>
-                    </div>
+              <div className="flex justify-center mt-6 md:mt-10">
+                <div className="flex flex-row space-x-4 w-full max-w-4xl">
 
-                    {/* Second box */}
-                    <div className="flex-auto bg-teal-100 p-4 rounded-lg shadow-lg">
-                      <h3 className="text-center text-xl font-semibold">{item.status}</h3>
-                    </div>
+                  <div className="flex-auto bg-lightBlue2 p-4 md:p-6 rounded-lg shadow-lg">
+                    <h3 className="text-center text-lg md:text-xl font-semibold">{item.name}</h3>
+                  </div>
+
+                  <div className="flex-auto bg-lightBlue3 p-4 md:p-6 rounded-lg shadow-lg">
+                    <h3 className="text-center text-lg md:text-xl font-semibold">{item.status}</h3>
                   </div>
                 </div>
-
-                <div className="card-auto p-6 rounded-lg shadow-lg mt-10 bg-lightPurple2 ">
-                  <div className="text-center">
-                    <h1 className="text-9xl text-darkPurple">
-                      {item.queue_ahead}
-                    </h1>
-                    <p className="text-l font-semibold text-darkPurple">
-                      Ahead of you
-                    </p>
-                  </div>
-                </div>
-                <div className="flex-auto-48 p-6 rounded-lg shadow-lg bg-lightPurple1 mt-10">
-                      <p className="text-l text-pink-900 font-semibold">
-                        Time In: {item.time_in}
-                      </p>
-                    </div> 
               </div>
-            ))}
-          </div>
+
+              <div className="min-h-64 p-4 md:p-6 rounded-lg shadow-lg mt-8 md:mt-10 bg-lightPurple2">
+                <div className="text-center">
+                  <h1 className="text-9xl md:text-9xl mt-7 text-darkPurple">
+                    {item.queue_ahead}
+                  </h1>
+                  <p className="text-sm md:text-lg font-semibold text-darkPurple">
+                    Ahead of you
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-4 md:p-6 rounded-lg shadow-lg bg-lightPurple1 mt-8 md:mt-10">
+                <p className="text-sm md:text-lg text-pink-900 font-semibold">
+                  Time In: {item.time_in}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+      </div>
+    ) : (
+      <p>Loading...</p>
+    )}
+  </div>
+
   );
 }  
 
