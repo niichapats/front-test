@@ -22,6 +22,8 @@ const config: Config = {
         lightGrey2: '#DDE6ED',
         darkPurple: '#424874',
         cream: '#FAF0E2',
+        brightPink: '#C869B3',
+        brightPink2: '#DD98D6'
       },
       height: {
         '26': '4rem',
